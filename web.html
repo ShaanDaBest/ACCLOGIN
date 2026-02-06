@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>A.C.C Company</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #222;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+
+        section {
+            padding: 40px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .team {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .person {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .person img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+
+        /* Login box styling */
+        #loginBox {
+            display: none;
+            background: white;
+            padding: 20px;
+            max-width: 320px;
+            margin: 30px auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        #loginBox input {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #222;
+            color: white;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Association of Colossal Clashes</h1>
+    <p>Building ideas. Creating impact.</p>
+    <!-- Login Button -->
+    <button onclick="openLogin()">Login</button>
+</header>
+
+<!-- Login Box -->
+<div id="loginBox">
+    <h3>Member Login</h3>
+    <input type="text" id="userId" placeholder="Enter your ID">
+    <button onclick="submitId()">Submit</button>
+    <p id="loginStatus"></p>
+</div>
+
+<section>
+    <h2>About Us</h2>
+    <p style="text-align:center;">
+       Welcome to the Association of Colossal Clashes Information. Here, we provide information on new and 
+       interesting upcoming events, and we share details with you, such as alerts or news updates for the 
+       news station. We will keep you updated on any new developments that arise in the "News" Section. 
+       A.C.C. also has a section dedicated to the Uranium Club, where we provide information about all 
+       the latest radioactive metals. A.C.C. delivers a lot to bidding people, and to gain editing
+       access to this, you must be a trusted member of the friend group and be on good terms with Reyaan 
+       Mukkamala, or else... 😁 Plus, after one month has passed, all the news that popped up in that
+       month will be removed, so get all caught up on the news before the month ends! Be sure to also 
+       check out the newly added Elemental Club as well.
+    </p>
+</section>
+
+<section>
+    <h2>Our People</h2>
+    <div class="team">
+        <div class="person">
+            <img src="https://via.placeholder.com/120" alt="Person 1">
+            <h3>Alex Carter</h3>
+            <p>Founder & CEO</p>
+        </div>
+        <div class="person">
+            <img src="https://via.placeholder.com/120" alt="Person 2">
+            <h3>Blake Morgan</h3>
+            <p>Lead Developer</p>
+        </div>
+        <div class="person">
+            <img src="https://via.placeholder.com/120" alt="Person 3">
+            <h3>Jordan Lee</h3>
+            <p>Design Manager</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 A.C.C. All rights reserved.</p>
+</footer>
+
+<!-- JavaScript -->
+<script>
+/* 1️⃣ ID → NAME LIST: Add new members here */
+const idToName = {
+    "ACC001": "Alex Carter",
+    "ACC002": "Blake Morgan",
+    "ACC003": "Jordan Lee",
+    "ADMIN01": "Reyaan Mukkamala",
+    "ACCDFL5": "Ethan Pak",
+    "ACCCOOL8": "Om Arun",
+};
+
+/* 2️⃣ OPEN LOGIN BOX */
+function openLogin() {
+    document.getElementById("loginBox").style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* 3️⃣ SUBMIT ID */
+function submitId() {
+    const id = document.getElementById("userId").value.trim();
+    const status = document.getElementById("loginStatus");
+
+    if (!id) {
+        status.innerText = "Please enter an ID";
+        return;
+    }
+
+    if (!(id in idToName)) {
+        status.innerText = "Unknown ID ❌";
+        return;
+    }
+
+    const name = idToName[id];
+    status.innerText = `Welcome, ${name} 👋`;
+
+    /* 🔴 Your Google Sheets Web App URL goes here 🔴 */
+    fetch("http://192.168.86.29:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            id: id,
+            name: name
+        })
+    })
+    .catch(() => {
+        status.innerText = "Error sending data ❌";
+    });
+}
+</script>
+
+</body>
+</html>
